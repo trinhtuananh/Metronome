@@ -1,51 +1,62 @@
 package fr.trinh.metronome;
 
 import fr.trinh.metronome.audio.AudioPlayer;
-import java.applet.Applet;
+import fr.trinh.metronome.audio.ExceptionDialog;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
 
+/**
+ *
+ * @author Tuan anh TRINH
+ */
 public class FXMLController implements Initializable {
-    
+
     @FXML
-    private Label label;
-    
+    private TextField patternTextField;
+
     @FXML
-    private void handleButtonAction(ActionEvent event) {
-        System.out.println("You clicked me!");
-        label.setText("Hello World!");
-        onClick();
-    }
-    
+    ToggleButton toggleButton;
+
+    @FXML
+    Slider volumeSlider;
+
+    private AudioPlayer audioPlayer;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    } 
-    
-    public void onClick()
-    {
-        AudioPlayer audioPlayer = new AudioPlayer();
-        audioPlayer.playLoop();
-//        for (int i = 0; i!= 5 ; i++)
-//        {
-//            
-//            try {
-//        audioPlayer.play();
-//                TimeUnit.SECONDS.sleep(1);
-//            } catch (InterruptedException ex) {
-//                Logger.getLogger(FXMLController.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//            System.out.println(System.currentTimeMillis());
-//            
-//        }
+        audioPlayer = AudioPlayer.getAudioPlayer();
+        toggleButton.selectedProperty().addListener((obs, o, n) -> {
+            if (n) {
+                play();
+            } else {
+                stop();
+            }
+        });
+        stop();
+        audioPlayer.getMediaPlayer().volumeProperty().bindBidirectional(volumeSlider.valueProperty());
+        patternTextField.textProperty().bindBidirectional(audioPlayer.getPatternProperty());
     }
+
+    public void play() {
+        try {
+            audioPlayer.playLoop();
+            this.patternTextField.setEditable(false);
+            toggleButton.setText("Stop...");
+        } catch (Exception e) {
+            new ExceptionDialog(e);
+        }
+    }
+
+    public void stop() {
+        audioPlayer.stop();
+        this.patternTextField.setEditable(true);
+        toggleButton.setText("Play...");
+    }
+
 }
