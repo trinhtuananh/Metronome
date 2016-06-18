@@ -8,14 +8,23 @@ package fr.trinh.metronome.audio;
 import java.io.File;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
@@ -33,11 +42,13 @@ public class AudioPlayer {
     public static final String MEDIA_PATH = "/sounds/beep.mp3";
     private StringProperty patternProperty = new SimpleStringProperty();
     private int cpt;
+    private IntegerProperty rythme;
 
-    private AudioPlayer() {
-        Media media = new Media(this.getClass().getResource(MEDIA_PATH).toString());
-        mediaPlayer = new MediaPlayer(media);
+    public AudioPlayer(DoubleProperty r) {
+        mediaPlayer = new MediaPlayer(new Media(this.getClass().getResource(MEDIA_PATH).toString()));
         mediaPlayer.setBalance(0);
+        rythme = new SimpleIntegerProperty();
+        rythme.bindBidirectional(r);
     }
 
     public void play() {
@@ -45,9 +56,9 @@ public class AudioPlayer {
     }
 
     public void stop() {
-        if (mediaPlayer.isAutoPlay()) {
-            mediaPlayer.stop();
-        }
+        mediaPlayer.setCycleCount(0);
+        mediaPlayer.setAutoPlay(false);
+        mediaPlayer.stop();
 
     }
 
@@ -58,7 +69,8 @@ public class AudioPlayer {
         mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
         mediaPlayer.setOnRepeat(() -> {
             try {
-                Thread.sleep(1000);
+                double rythmeDouble = 60 / rythme.get() * 1000;
+                Thread.sleep((long) rythmeDouble);
             } catch (InterruptedException ex) {
                 Logger.getLogger(AudioPlayer.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -84,8 +96,10 @@ public class AudioPlayer {
         return doubleArray;
     }
 
-    public static AudioPlayer getAudioPlayer() {
-        return new AudioPlayer();
+    public void onChange(ObservableValue<? extends MediaPlayer.Status> observable, MediaPlayer.Status oldValue, MediaPlayer.Status newValue) {
+        if (newValue == MediaPlayer.Status.STOPPED) {
+            mediaPlayer.stop();
+        }
     }
 
     public Property<String> getPatternProperty() {

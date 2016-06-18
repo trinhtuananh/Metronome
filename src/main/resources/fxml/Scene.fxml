@@ -6,10 +6,13 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="200" prefWidth="320" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.trinh.metronome.FXMLController">
-    <children>
+<AnchorPane id="AnchorPane" prefHeight="320.0" prefWidth="320" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.trinh.metronome.FXMLController">
+    <children>  
       <TextField fx:id="patternTextField" layoutX="75.0" layoutY="69.0" text="1 1" />
-      <Slider fx:id="volumeSlider" blockIncrement="0.1" layoutX="14.0" layoutY="21.0" majorTickUnit="0.2" max="1.0" minorTickCount="1" />
-      <ToggleButton fx:id="toggleButton" layoutX="126.0" layoutY="128.0" mnemonicParsing="false" text="ToggleButton" />
+      <Slider fx:id="volumeSlider" blockIncrement="0.1" layoutX="14.0" layoutY="21.0" majorTickUnit="0.2" max="1.0" minorTickCount="1" value="0.8" />
+      <ToggleButton fx:id="toggleButton" layoutX="102.0" layoutY="126.0" mnemonicParsing="false" text="ToggleButton" />
+      <Button layoutX="215.0" layoutY="17.0" mnemonicParsing="false" text="Button" />
+      <Slider fx:id="tempoSlider" blockIncrement="1.0" layoutX="91.0" layoutY="164.0" max="120.0" min="20.0" minorTickCount="1" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="60.0" />
+      <Label fx:id="tempoLabel" layoutX="142.0" layoutY="235.0" text="Label" />
     </children>
 </AnchorPane>

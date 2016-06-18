@@ -5,5 +5,4 @@
   - Set frequency
 
 ###TODO
-  - Set frequency
   - Choose file
