@@ -4,5 +4,3 @@
   - Change the balance at each beat.
   - Set frequency
 
-###TODO
-  - Choose file
