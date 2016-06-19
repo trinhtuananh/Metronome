@@ -1,18 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="320.0" prefWidth="320" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.trinh.metronome.FXMLController">
-    <children>  
-      <TextField fx:id="patternTextField" layoutX="75.0" layoutY="69.0" text="1 1" />
-      <Slider fx:id="volumeSlider" blockIncrement="0.1" layoutX="14.0" layoutY="21.0" majorTickUnit="0.2" max="1.0" minorTickCount="1" value="0.8" />
-      <ToggleButton fx:id="toggleButton" layoutX="102.0" layoutY="126.0" mnemonicParsing="false" text="ToggleButton" />
-      <Button layoutX="215.0" layoutY="17.0" mnemonicParsing="false" text="Button" />
-      <Slider fx:id="tempoSlider" blockIncrement="1.0" layoutX="91.0" layoutY="164.0" max="120.0" min="20.0" minorTickCount="1" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="60.0" />
-      <Label fx:id="tempoLabel" layoutX="142.0" layoutY="235.0" text="Label" />
-    </children>
-</AnchorPane>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="462.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.trinh.metronome.FXMLController">
+    <top>
+        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0" BorderPane.alignment="CENTER">
+            <children>
+                  
+                <Button fx:id="fileButton" mnemonicParsing="false" onAction="#loadFile" text="Choose an other sound" />
+            </children>
+         <padding>
+            <Insets right="10.0" />
+         </padding>
+        </HBox>
+    </top>
+    <center>
+        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="30.0" BorderPane.alignment="CENTER">
+            <children>  
+                <TextField fx:id="patternTextField" alignment="CENTER" maxWidth="400.0" prefWidth="200.0" promptText="1;-1" text="1;-1" />
+                <ToggleButton fx:id="toggleButton" contentDisplay="CENTER" mnemonicParsing="false" text="ToggleButton" />
+            </children>
+        </VBox>
+    </center>
+    <bottom>
+        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0" stylesheets="@../styles/Styles.css" BorderPane.alignment="CENTER">
+            <children>
+                <Slider fx:id="tempoSlider" blockIncrement="1.0" layoutX="91.0" layoutY="164.0" majorTickUnit="20.0" max="120.0" maxWidth="400.0" min="20.0" minorTickCount="1" prefWidth="200.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="60.0" />
+                <Label fx:id="tempoLabel" text="Label" />
+            </children>
+        </VBox>
+    </bottom>
+</BorderPane>

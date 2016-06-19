@@ -20,7 +20,8 @@ public class MainApp extends Application {
     public void start(Stage stage) throws Exception {
         Logger logger = Logger.getGlobal();
         logger.log(Level.SEVERE, "Welcome :D");
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/Scene.fxml"));
+        logger.log(Level.SEVERE, this.getClass().getResource("/fxml/Scene.fxml").toString());
+        Parent root = FXMLLoader.load(this.getClass().getResource("/fxml/Scene.fxml"));
 
         Scene scene = new Scene(root);
         scene.getStylesheets().add("/styles/Styles.css");

@@ -2,7 +2,9 @@ package fr.trinh.metronome;
 
 import fr.trinh.metronome.audio.AudioPlayer;
 import fr.trinh.metronome.audio.ExceptionDialog;
+import java.io.File;
 import java.net.URL;
+import java.nio.file.Paths;
 import java.util.ResourceBundle;
 import javafx.beans.binding.Bindings;
 import javafx.beans.value.ObservableValue;
@@ -13,6 +15,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.media.Media;
+import javafx.stage.FileChooser;
 import javafx.util.StringConverter;
 import javafx.util.converter.NumberStringConverter;
 
@@ -29,13 +34,14 @@ public class FXMLController implements Initializable {
     ToggleButton toggleButton;
 
     @FXML
-    Slider volumeSlider;
-
-    @FXML
     Slider tempoSlider;
     
     @FXML
     Label tempoLabel;
+    
+    @FXML
+    Button fileButton;
+            
 
 
     private AudioPlayer audioPlayer;
@@ -52,12 +58,10 @@ public class FXMLController implements Initializable {
         });
         audioPlayer = new AudioPlayer(tempoSlider.valueProperty());
         stop();
-        audioPlayer.getMediaPlayer().volumeProperty().bindBidirectional(volumeSlider.valueProperty());
         patternTextField.textProperty().bindBidirectional(audioPlayer.getPatternProperty());
         StringConverter<Number> converter = new NumberStringConverter();
         tempoSlider.valueProperty().addListener(this::onChange);
         Bindings.bindBidirectional(tempoLabel.textProperty(), tempoSlider.valueProperty(), converter);
-
     }
 
     public void onChange(ObservableValue t, Number old, Number newValue){
@@ -81,4 +85,11 @@ public class FXMLController implements Initializable {
         toggleButton.setText("Play...");
     }
 
+    public void loadFile(){
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Choose a new Sound");
+        File file = fileChooser.showOpenDialog(null);
+        Media media = new Media(Paths.get(file.getAbsolutePath()).toUri().toString());
+        audioPlayer.setMedia(media);
+    }
 }
